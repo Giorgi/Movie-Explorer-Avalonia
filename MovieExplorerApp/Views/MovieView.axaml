@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:MovieExplorerApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MovieExplorerApp.Views.MovieView">
+  <StackPanel Spacing="5" Width="200" x:DataType="viewModels:MovieViewModel">
+    <Image Width="200" Stretch="Uniform" Source="{Binding Cover}" />
+    <TextBlock Text="{Binding Title}" FontWeight="Bold" 
+               HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
+    <TextBlock Text="{Binding Overview}" HorizontalAlignment="Center" 
+               MaxLines="3" TextWrapping="WrapWithOverflow" />
+  </StackPanel>
+</UserControl>

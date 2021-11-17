@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MovieExplorerApp.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:movies="clr-namespace:TMDbLib.Objects.Movies;assembly=TMDbLib"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MovieExplorerApp.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="MovieExplorerApp">
+
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <SplitView IsPaneOpen="True" DisplayMode="CompactInline" OpenPaneLength="260">
+    <SplitView.Pane>
+      <TabControl>
+        <TabItem Header="Popular">
+          <ListBox Items="{Binding PopularMovies}" SelectedItem="{Binding SelectedMovie}">
+          </ListBox>
+        </TabItem>
+        <TabItem Header="Discover">
+          <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+              <TextBox Text="{Binding SearchText}" Watermark="Search for Movies...." />
+              <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
+            </StackPanel>
+            <ListBox Items="{Binding SearchResults}" SelectedItem="{Binding SelectedMovie}" Background="Transparent" Margin="0 20">
+            </ListBox>
+          </DockPanel>
+        </TabItem>
+      </TabControl>
+    </SplitView.Pane>
+    <StackPanel Orientation="Horizontal">
+      <Image Width="350" Stretch="Uniform" Source="{Binding CurrentMovie.Poster}" />
+      <ListBox Items="{Binding CurrentMovie.Cast}" MinWidth="200" MaxWidth="250">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel x:DataType="movies:Cast">
+              <TextBlock Text="{Binding Name}" TextAlignment="Center" />
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </StackPanel>
+  </SplitView>
+</Window>
