@@ -1,21 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
-using LibVLCSharp.Shared;
 using ReactiveUI;
+using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
-using YouTubeApiSharp;
 
 namespace MovieExplorerApp.ViewModels
 {
     public class MovieViewModel : ViewModelBase
     {
-        private readonly LibVLC libVlc = new LibVLC();
         static readonly HttpClient HttpClient = new();
 
         private readonly Movie? movie;
@@ -23,7 +20,6 @@ namespace MovieExplorerApp.ViewModels
 
         private Bitmap? cover;
         private Bitmap? poster;
-        private MediaPlayer mediaPlayer;
 
         public MovieViewModel(SearchMovie searchMovie)
         {
@@ -59,13 +55,9 @@ namespace MovieExplorerApp.ViewModels
             private set => this.RaiseAndSetIfChanged(ref poster, value);
         }
 
-        public MediaPlayer MediaPlayer
-        {
-            get => mediaPlayer;
-            private set => this.RaiseAndSetIfChanged(ref mediaPlayer, value);
-        }
-
         public List<Cast> Cast => movie!.Credits.Cast;
+
+        public List<Video> Videos => movie!.Videos.Results;
 
         public async Task LoadCover()
         {
@@ -81,18 +73,6 @@ namespace MovieExplorerApp.ViewModels
 
             var memoryStream = new MemoryStream(data);
             Poster = await Task.Run(() => Bitmap.DecodeToWidth(memoryStream, 400));
-        }
-
-        public void GetYouTubeUrl()
-        {
-            if (movie!.Videos.Results.Any())
-            {
-                var urls = DownloadUrlResolver.GetDownloadUrls($"https://www.youtube.com/watch?v={movie.Videos.Results[0].Key}");
-
-                var videoInfo = urls.FirstOrDefault(info => info.VideoType == VideoType.Mp4);
-                MediaPlayer = new MediaPlayer(new Media(libVlc, new Uri(videoInfo.DownloadUrl)));
-                //MediaPlayer.Play();
-            }
         }
     }
 }

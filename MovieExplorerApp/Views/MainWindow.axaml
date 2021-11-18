@@ -63,9 +63,7 @@
         </TextBlock>
         <TextBlock Text="Release Date:"></TextBlock>
         <TextBlock Text="{Binding CurrentMovie.ReleaseDate, StringFormat='{}{0:dd-MM-yyyy}'}"></TextBlock> 
-        <Button Content="Watch"></Button>
       </StackPanel>
-      <!--<vlc:VideoView MediaPlayer="{Binding CurrentMovie.MediaPlayer}" />-->
     </StackPanel>
   </SplitView>
 </Window>
