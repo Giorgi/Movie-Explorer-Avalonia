@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Net.Http;
+using System.Net;
 using System.Reactive.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using Avalonia.Media.Imaging;
+using System.Web;
 using MovieExplorerApp.Services;
+using Newtonsoft.Json.Linq;
 using ReactiveUI;
-using TMDbLib.Objects.Movies;
-using TMDbLib.Objects.Search;
 
 namespace MovieExplorerApp.ViewModels
 {
@@ -111,63 +107,6 @@ namespace MovieExplorerApp.ViewModels
             {
                 await model.LoadCover();
             }
-        }
-    }
-
-    public class MovieViewModel : ViewModelBase
-    {
-        static readonly HttpClient HttpClient = new();
-
-        private readonly Movie? movie;
-        private readonly SearchMovie? searchMovie;
-
-        private Bitmap? cover;
-        private Bitmap? poster;
-
-        public MovieViewModel(SearchMovie searchMovie)
-        {
-            this.searchMovie = searchMovie;
-        }
-
-        public MovieViewModel(Movie movie)
-        {
-            this.movie = movie;
-        }
-
-        public int Id => searchMovie.Id;
-
-        public string Title => searchMovie?.Title ?? movie?.Title;
-
-        public string Overview => searchMovie.Overview;
-
-        public Bitmap? Cover
-        {
-            get => cover;
-            private set => this.RaiseAndSetIfChanged(ref cover, value);
-        }
-
-        public Bitmap? Poster
-        {
-            get => poster;
-            private set => this.RaiseAndSetIfChanged(ref poster, value);
-        }
-
-        public List<Cast> Cast => movie!.Credits.Cast;
-
-        public async Task LoadCover()
-        {
-            var data = await HttpClient.GetByteArrayAsync($"https://image.tmdb.org/t/p/w500{searchMovie?.BackdropPath}");
-
-            var memoryStream = new MemoryStream(data);
-            Cover = await Task.Run(() => Bitmap.DecodeToWidth(memoryStream, 400));
-        }
-
-        public async Task LoadPoster()
-        {
-            var data = await HttpClient.GetByteArrayAsync($"https://image.tmdb.org/t/p/w500{movie!.PosterPath}");
-
-            var memoryStream = new MemoryStream(data);
-            Poster = await Task.Run(() => Bitmap.DecodeToWidth(memoryStream, 400));
         }
     }
 }

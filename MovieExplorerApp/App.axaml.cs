@@ -26,6 +26,7 @@ namespace MovieExplorerApp
                 };
             }
 
+            LibVLCSharp.Shared.Core.Initialize();
             base.OnFrameworkInitializationCompleted();
         }
     }
