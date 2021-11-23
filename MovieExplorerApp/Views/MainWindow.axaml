@@ -13,56 +13,67 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
 
-  <SplitView IsPaneOpen="True" DisplayMode="CompactInline" OpenPaneLength="260">
-    <SplitView.Pane>
-      <TabControl>
-        <TabItem Header="Popular">
-          <ListBox Items="{Binding PopularMovies}" SelectedItem="{Binding SelectedMovie}">
-          </ListBox>
-        </TabItem>
-        <TabItem Header="Discover">
-          <DockPanel>
-            <StackPanel DockPanel.Dock="Top">
-              <TextBox Text="{Binding SearchText}" Watermark="Search for Movies...." />
-              <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
-            </StackPanel>
-            <ListBox Items="{Binding SearchResults}" SelectedItem="{Binding SelectedMovie}" Background="Transparent" Margin="0 20">
-            </ListBox>
-          </DockPanel>
-        </TabItem>
-      </TabControl>
-    </SplitView.Pane>
-    <StackPanel Orientation="Horizontal">
-      <Image Width="400" Stretch="Uniform" Source="{Binding CurrentMovie.Poster}" />
-      <ListBox Items="{Binding CurrentMovie.Cast}" MinWidth="300" MaxWidth="350" Background="White">
-        <ListBox.ItemTemplate>
-          <DataTemplate>
-            <StackPanel x:DataType="movies:Cast" Orientation="Horizontal">
-              <TextBlock>
-                <TextBlock.Text>
-                  <MultiBinding StringFormat="{}{0} - {1}">
-                    <Binding Path="Name" />
-                    <Binding Path="Character" />
-                  </MultiBinding>
-                </TextBlock.Text>
-              </TextBlock>
-            </StackPanel>
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
-      <StackPanel Orientation="Vertical" Margin="10,0,0,0" Spacing="15" IsVisible="{Binding CurrentMovie, Converter={x:Static ObjectConverters.IsNotNull}}">
-        <TextBlock Text="Rating:"></TextBlock>
-        <TextBlock>
-          <TextBlock.Text>
-            <MultiBinding StringFormat="{}{0} out of {1} votes">
-              <Binding Path="CurrentMovie.VoteAverage" />
-              <Binding Path="CurrentMovie.VoteCount" />
-            </MultiBinding>
-          </TextBlock.Text>
-        </TextBlock>
-        <TextBlock Text="Release Date:"></TextBlock>
-        <TextBlock Text="{Binding CurrentMovie.ReleaseDate, StringFormat='{}{0:dd-MM-yyyy}'}"></TextBlock> 
-      </StackPanel>
+  <StackPanel Orientation="Vertical" Spacing="5">
+    <StackPanel Orientation="Horizontal" Margin="5" Spacing="10">
+        <TextBlock Text="Not Logged In" VerticalAlignment="Center" FontWeight="Bold" 
+                   IsVisible="{Binding User, Converter={x:Static ObjectConverters.IsNull}}" />
+        <TextBlock Text="{Binding User.FullName, StringFormat='Hello {0}'}" VerticalAlignment="Center" FontWeight="Bold" 
+                   IsVisible="{Binding User, Converter={x:Static ObjectConverters.IsNotNull}}" />
+        
+        <Button Content="Login" Command="{Binding LoginCommand}" IsVisible="{Binding User, Converter={x:Static ObjectConverters.IsNull}}"></Button>
+        <Button Content="Logout" Command="{Binding LogoutCommand}" IsVisible="{Binding User, Converter={x:Static ObjectConverters.IsNotNull}}"></Button>
     </StackPanel>
-  </SplitView>
+    <SplitView IsPaneOpen="True" DisplayMode="CompactInline" OpenPaneLength="260">
+      <SplitView.Pane>
+        <TabControl>
+          <TabItem Header="Popular">
+            <ListBox Items="{Binding PopularMovies}" SelectedItem="{Binding SelectedMovie}">
+            </ListBox>
+          </TabItem>
+          <TabItem Header="Discover">
+            <DockPanel>
+              <StackPanel DockPanel.Dock="Top">
+                <TextBox Text="{Binding SearchText}" Watermark="Search for Movies...." />
+                <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
+              </StackPanel>
+              <ListBox Items="{Binding SearchResults}" SelectedItem="{Binding SelectedMovie}" Background="Transparent" Margin="0 20">
+              </ListBox>
+            </DockPanel>
+          </TabItem>
+        </TabControl>
+      </SplitView.Pane>
+      <StackPanel Orientation="Horizontal">
+        <Image Width="400" Stretch="Uniform" VerticalAlignment="Top" Source="{Binding CurrentMovie.Poster}" />
+        <ListBox Items="{Binding CurrentMovie.Cast}" MinWidth="300" MaxWidth="350" Background="White">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel x:DataType="movies:Cast" Orientation="Horizontal">
+                <TextBlock>
+                  <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} - {1}">
+                      <Binding Path="Name" />
+                      <Binding Path="Character" />
+                    </MultiBinding>
+                  </TextBlock.Text>
+                </TextBlock>
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Orientation="Vertical" Margin="10,0,0,0" Spacing="15" IsVisible="{Binding CurrentMovie, Converter={x:Static ObjectConverters.IsNotNull}}">
+          <TextBlock Text="Rating:"></TextBlock>
+          <TextBlock>
+            <TextBlock.Text>
+              <MultiBinding StringFormat="{}{0} out of {1} votes">
+                <Binding Path="CurrentMovie.VoteAverage" />
+                <Binding Path="CurrentMovie.VoteCount" />
+              </MultiBinding>
+            </TextBlock.Text>
+          </TextBlock>
+          <TextBlock Text="Release Date:"></TextBlock>
+          <TextBlock Text="{Binding CurrentMovie.ReleaseDate, StringFormat='{}{0:dd-MM-yyyy}'}"></TextBlock>
+        </StackPanel>
+      </StackPanel>
+    </SplitView>
+  </StackPanel>
 </Window>
