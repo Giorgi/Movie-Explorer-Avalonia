@@ -37,6 +37,7 @@ namespace MovieExplorerApp.ViewModels
                 AuthorizeEndpoint = "https://{yourOktaDomain}/oauth2/v1/authorize",
                 TokenEndpoint = "https://{yourOktaDomain}/oauth2/v1/token",
                 
+                EndSessionEndpoint = "https://{yourOktaDomain}/oauth2/v1/logout",
             },
             LoadProfile = false,
             Policy = new Policy
