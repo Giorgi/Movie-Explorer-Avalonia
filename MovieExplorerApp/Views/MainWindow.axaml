@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:movies="clr-namespace:TMDbLib.Objects.Movies;assembly=TMDbLib"
-        xmlns:vlc="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MovieExplorerApp.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"

@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using ReactiveUI;
-using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
 
@@ -56,8 +55,6 @@ namespace MovieExplorerApp.ViewModels
         }
 
         public List<Cast> Cast => movie!.Credits.Cast;
-
-        public List<Video> Videos => movie!.Videos.Results;
 
         public async Task LoadCover()
         {
